@@ -1,0 +1,60 @@
+{
+  "name": "Infringement",
+  "fields": [
+    {
+      "fieldName": "processInstanceId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "infringementType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateDone",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "doneBy",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "infringementAction",
+      "otherEntityRelationshipName": "infringement",
+      "relationshipName": "infringementAction"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "document",
+      "otherEntityRelationshipName": "infringement",
+      "relationshipName": "document"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "driver",
+      "otherEntityRelationshipName": "infringement",
+      "relationshipName": "driver",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "vehicle",
+      "otherEntityRelationshipName": "infringement",
+      "relationshipName": "vehicle",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20200730192039",
+  "entityTableName": "infringement",
+  "dto": "no",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["infringementapi"]
+}

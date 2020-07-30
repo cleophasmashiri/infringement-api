@@ -1,0 +1,72 @@
+{
+  "name": "Driver",
+  "fields": [
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "middleName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nationalIdNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cellNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "province",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "city",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "suburb",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "streetName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "streetPropertyNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "unitNumber",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "vehicle",
+      "otherEntityRelationshipName": "driver",
+      "relationshipName": "vehicle"
+    }
+  ],
+  "changelogDate": "20200730191839",
+  "entityTableName": "driver",
+  "dto": "no",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["infringementapi"]
+}

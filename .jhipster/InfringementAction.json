@@ -1,0 +1,46 @@
+{
+  "name": "InfringementAction",
+  "fields": [
+    {
+      "fieldName": "processInstanceId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "infringementActionType",
+      "fieldType": "InfringementActionType",
+      "fieldValues": "CREATED_INFRINGEMENT,INFRINGEMENT_NOTIFICATION_SENT,INFRINGEMENT_REMINDER_NOTIFICATION_SENT,INFRINGEMENT_ADMIN_REMINDER_NOTIFICATION_SENT,INFRINGEMENT_PAYMENT_DONE,INFRINGEMENT_DRIVER_NOMINATION,INFRINGEMENT_ASSIGN_ANOTHER_DRIVER,INFRINGEMENT_CANCEL,INFRINGEMENT_CREATED_COURT_CASE,INFRINGEMENT_ASSIGN_DRIVER"
+    },
+    {
+      "fieldName": "dateDone",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "doneBy",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "infringement",
+      "otherEntityRelationshipName": "infringementAction",
+      "relationshipName": "infringement",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20200730192239",
+  "entityTableName": "infringement_action",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["infringementapi"]
+}

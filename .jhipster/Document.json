@@ -1,0 +1,34 @@
+{
+  "name": "Document",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "infringement",
+      "otherEntityRelationshipName": "document",
+      "relationshipName": "infringement",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20200730192139",
+  "entityTableName": "document",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["infringementapi"]
+}

@@ -1,0 +1,53 @@
+{
+  "name": "Vehicle",
+  "fields": [
+    {
+      "fieldName": "plateNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "make",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "model",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "engineNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "chassisNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "color",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "yearFirstRegistered",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "driver",
+      "otherEntityRelationshipName": "vehicle",
+      "relationshipName": "driver",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20200730191939",
+  "entityTableName": "vehicle",
+  "dto": "no",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["infringementapi"]
+}
