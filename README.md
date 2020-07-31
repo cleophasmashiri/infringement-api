@@ -1,3 +1,20 @@
+# Integrating Camunda
+
+Add maven dependency
+<properties>
+<camunda.springboot-starter>7.13.0</camunda.springboot-starter>
+</properties>
+<dependency>
+<groupId>org.camunda.bpm.springboot</groupId>
+<artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
+<version>\${camunda.springboot-starter}</version>
+</dependency>
+
+Error Issue
+java.lang.NoSuchMethodError: javax.ws.rs.core.Application.getProperties()Ljava/util/Map;
+
+Add Camunda dependency above spring dependency.
+
 # infringementapi
 
 This application was generated using JHipster 6.9.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.9.1](https://www.jhipster.tech/documentation-archive/v6.9.1).

@@ -84,6 +84,7 @@
         <junit.utReportFolder>${project.testresult.directory}/test</junit.utReportFolder>
         <junit.itReportFolder>${project.testresult.directory}/integrationTest</junit.itReportFolder>
         <!-- jhipster-needle-maven-property -->
+        <camunda.springboot-starter>7.13.0</camunda.springboot-starter>
     </properties>
 
     <dependencyManagement>
@@ -291,6 +292,17 @@
             <artifactId>jjwt-jackson</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- Camunda BPM -->
+        <dependency>
+            <groupId>org.camunda.bpm.springboot</groupId>
+            <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
+            <version>${camunda.springboot-starter}</version>
+        </dependency>
+        <!-- <dependency>
+            <groupId>org.camunda.bpm.springboot</groupId>
+            <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
+            <version>${camunda.springboot-starter}</version>
+        </dependency>   -->
         <!-- Spring Cloud -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
