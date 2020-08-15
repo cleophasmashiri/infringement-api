@@ -14,6 +14,12 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+# bpm:
+#   tasks:
+#     baseurl: http://localhost:4200/process/tasklist/
+#     fromemail: infringements@zamayi.com
+#     adminemail: admin@zamayi.com
+
 camunda:
   bpm:
     admin-user:
@@ -217,3 +223,15 @@ jhipster:
 # ===================================================================
 
 # application:
+
+spring.mail:
+  host: smtp.gmail.com
+  port: 587
+  username: ${HEROKU_EMAIL_USERNAME} # gmailuserid@gmail.com  #Replace this field with your Gmail username.
+  password: ${HEROKU_EMAIL_PASSWORD} #Replace this field with your Gmail password/App password.
+  protocol: smtp
+  tls: true
+  properties.mail.smtp:
+    auth: true
+    starttls.enable: true
+    ssl.trust: smtp.gmail.com
