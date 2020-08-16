@@ -20,6 +20,8 @@
 #     fromemail: infringements@zamayi.com
 #     adminemail: admin@zamayi.com
 
+jms:
+  destination: emails
 camunda:
   bpm:
     admin-user:
@@ -119,6 +121,17 @@ management:
             enabled: true
 
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${HEROKU_EMAIL_USERNAME} # gmailuserid@gmail.com  #Replace this field with your Gmail username.
+    password: ${HEROKU_EMAIL_PASSWORD} #Replace this field with your Gmail password/App password.
+    protocol: smtp
+    tls: true
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
   application:
     name: infringementapi
   jmx:
@@ -200,8 +213,18 @@ jhipster:
   #     exposed-headers: "Authorization,Link,X-Total-Count"
   #     allow-credentials: true
   #     max-age: 1800
-  mail:
-    from: infringementapi@localhost
+  # mail:
+  #   host: smtp.gmail.com
+  #   port: 587
+  #   username: ${HEROKU_EMAIL_USERNAME} # gmailuserid@gmail.com  #Replace this field with your Gmail username.
+  #   password: ${HEROKU_EMAIL_PASSWORD} #Replace this field with your Gmail password/App password.
+  #   protocol: smtp
+  #   tls: true
+  #   properties.mail.smtp:
+  #     auth: true
+  #     starttls.enable: true
+  #     ssl.trust: smtp.gmail.com
+
   swagger:
     default-include-pattern: /api/.*
     title: infringementapi API
@@ -224,14 +247,3 @@ jhipster:
 
 # application:
 
-spring.mail:
-  host: smtp.gmail.com
-  port: 587
-  username: ${HEROKU_EMAIL_USERNAME} # gmailuserid@gmail.com  #Replace this field with your Gmail username.
-  password: ${HEROKU_EMAIL_PASSWORD} #Replace this field with your Gmail password/App password.
-  protocol: smtp
-  tls: true
-  properties.mail.smtp:
-    auth: true
-    starttls.enable: true
-    ssl.trust: smtp.gmail.com

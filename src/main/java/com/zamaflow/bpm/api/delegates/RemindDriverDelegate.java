@@ -4,8 +4,8 @@ import com.zamaflow.bpm.api.domain.Driver;
 import com.zamaflow.bpm.api.domain.Infringement;
 import com.zamaflow.bpm.api.domain.Notification;
 import com.zamaflow.bpm.api.domain.enumeration.InfringementActionType;
+import com.zamaflow.bpm.api.service.EmailDispatcher;
 import com.zamaflow.bpm.api.service.InfringementService;
-import com.zamaflow.bpm.api.service.NotificationService;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -21,7 +21,7 @@ public class RemindDriverDelegate implements JavaDelegate {
     private final Logger LOGGER = LoggerFactory.getLogger(RemindDriverDelegate.class);
     
     @Autowired
-    private NotificationService notificationService;
+    private EmailDispatcher emailDispatcher;
 
     @Autowired
     private InfringementService infringementService;
@@ -39,7 +39,7 @@ public class RemindDriverDelegate implements JavaDelegate {
         Driver driver = infringementService.findDriverByNationalIdNumber(driverIdNumber);
         Infringement infringement =  infringementService.getInfringmentByprocessInstanceId(delegateExecution.getProcessInstanceId());
         infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("infringementNotes").toString(), InfringementActionType.INFRINGEMENT_REMINDER_NOTIFICATION_SENT);
-        notificationService.sendMessage(new Notification()
+        emailDispatcher.send(new Notification()
         .setSubject("Infringement Notification Reminder")
         .setToFrom(fromEmail)
         .setToEmail(driver.getEmail())

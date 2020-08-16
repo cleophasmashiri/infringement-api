@@ -4,8 +4,8 @@ import com.zamaflow.bpm.api.domain.Driver;
 import com.zamaflow.bpm.api.domain.Infringement;
 import com.zamaflow.bpm.api.domain.Notification;
 import com.zamaflow.bpm.api.domain.enumeration.InfringementActionType;
+import com.zamaflow.bpm.api.service.EmailDispatcher;
 import com.zamaflow.bpm.api.service.InfringementService;
-import com.zamaflow.bpm.api.service.NotificationService;
 
 import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.delegate.TaskListener;
@@ -21,7 +21,7 @@ public class AssignDriverTaskListener implements TaskListener {
     private final Logger LOGGER = LoggerFactory.getLogger(AssignAnotherDriverDelegate.class);
 
     @Autowired
-    private NotificationService notificationService;
+    private EmailDispatcher emailDispatcher;
 
     @Autowired
     private InfringementService infringementService;
@@ -44,7 +44,7 @@ public class AssignDriverTaskListener implements TaskListener {
         delegateTask.getVariable("driverNotes").toString(),
                 InfringementActionType.INFRINGEMENT_ASSIGN_DRIVER);
 
-        notificationService.sendMessage(new Notification()
+                emailDispatcher.send(new Notification()
                 .setSubject("New Infringement Notification")
                 .setToFrom(fromEmail)
                 .setToEmail(driver.getEmail())

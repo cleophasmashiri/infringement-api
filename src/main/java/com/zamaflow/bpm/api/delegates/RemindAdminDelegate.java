@@ -3,8 +3,8 @@ package com.zamaflow.bpm.api.delegates;
 import com.zamaflow.bpm.api.domain.Infringement;
 import com.zamaflow.bpm.api.domain.Notification;
 import com.zamaflow.bpm.api.domain.enumeration.InfringementActionType;
+import com.zamaflow.bpm.api.service.EmailDispatcher;
 import com.zamaflow.bpm.api.service.InfringementService;
-import com.zamaflow.bpm.api.service.NotificationService;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -20,7 +20,7 @@ public class RemindAdminDelegate implements JavaDelegate {
     private final Logger LOGGER = LoggerFactory.getLogger(RemindAdminDelegate.class);
     
     @Autowired
-    private NotificationService notificationService;
+    private EmailDispatcher emailDispatcher;
 
     @Autowired
     private InfringementService infringementService;
@@ -39,7 +39,7 @@ public class RemindAdminDelegate implements JavaDelegate {
         LOGGER.info("Sending Review Infringement Reminder to Admin");
         Infringement infringement =  infringementService.getInfringmentByprocessInstanceId(delegateExecution.getProcessInstanceId());
         infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("infringementNotes").toString(), InfringementActionType.INFRINGEMENT_ADMIN_REMINDER_NOTIFICATION_SENT);
-        notificationService.sendMessage(new Notification()
+        emailDispatcher.send(new Notification()
         .setSubject("Infringement Review Task Reminder")
         .setToFrom(fromEmail)
         .setToEmail(adminEmail)
