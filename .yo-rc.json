@@ -32,7 +32,9 @@
     "embeddableLaunchScript": false,
     "entitySuffix": "",
     "otherModules": [],
-    "blueprints": []
+    "blueprints": [],
+    "herokuAppName": "infringementapi",
+    "herokuDeployType": "jar"
   },
   "entities": ["Infringement", "InfringementAction", "Driver", "Vehicle", "Document"]
 }
