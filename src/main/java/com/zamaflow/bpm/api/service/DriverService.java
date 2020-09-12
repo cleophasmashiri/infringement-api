@@ -37,6 +37,8 @@ public interface DriverService {
      */
     Optional<Driver> findOne(Long id);
 
+    Optional<Driver> findOneByEmail(String email);
+    
     /**
      * Delete the "id" driver.
      *

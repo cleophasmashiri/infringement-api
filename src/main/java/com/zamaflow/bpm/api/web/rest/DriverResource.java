@@ -97,6 +97,13 @@ public class DriverResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/drivers/email")
+    public ResponseEntity<Driver> getDriverByEmail(@RequestParam String email) {
+        log.debug("REST request to get Driver : {}", email);
+        Optional<Driver> driver = driverService.findOneByEmail(email);
+        return ResponseUtil.wrapOrNotFound(driver);
+    }
+
     /**
      * {@code GET  /drivers/:id} : get the "id" driver.
      *
@@ -109,6 +116,8 @@ public class DriverResource {
         Optional<Driver> driver = driverService.findOne(id);
         return ResponseUtil.wrapOrNotFound(driver);
     }
+
+
 
     /**
      * {@code DELETE  /drivers/:id} : delete the "id" driver.

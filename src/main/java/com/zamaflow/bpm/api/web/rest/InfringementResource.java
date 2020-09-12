@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -96,6 +97,25 @@ public class InfringementResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
+
+     /**
+     * {@code GET  /infringements} : get all the infringements.
+     *
+     * @param pageable the pagination information.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infringements in body.
+     */
+    @GetMapping("/infringements/email")
+    public ResponseEntity<List<Infringement>> getByDriverEmailInfringements(Pageable pageable, @RequestParam String email) {
+        log.debug("REST request to get a page of Infringements");
+        List<Infringement> list = infringementService.findByDriverEmail(email);
+
+        // TODO implement paging correctly
+        Page<Infringement> page = new PageImpl<>(list, pageable, 100);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
 
     /**
      * {@code GET  /infringements/:id} : get the "id" infringement.

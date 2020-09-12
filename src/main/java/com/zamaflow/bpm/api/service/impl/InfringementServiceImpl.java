@@ -75,6 +75,14 @@ public class InfringementServiceImpl implements InfringementService {
         return infringementRepository.findAll(pageable);
     }
 
+    //Page<Infringement> findByDriverEmail(Pageable pageable, String email);
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Infringement> findByDriverEmail(String email){
+        log.debug("Request to get all Infringements");
+        return infringementRepository.findByDriverEmail(email);
+    }
 
     /**
      * Get one infringement by id.

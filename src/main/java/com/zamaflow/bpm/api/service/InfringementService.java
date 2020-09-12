@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
+import java.util.List;
 
 /**
  * Service Interface for managing {@link Infringement}.
@@ -39,6 +40,9 @@ public interface InfringementService {
      * @return the list of entities.
      */
     Page<Infringement> findAll(Pageable pageable);
+
+
+    List<Infringement> findByDriverEmail(String email);
 
 
     /**
