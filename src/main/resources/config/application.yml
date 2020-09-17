@@ -20,6 +20,12 @@
 #     fromemail: infringements@zamayi.com
 #     adminemail: admin@zamayi.com
 
+bpm:
+  tasks:
+    baseurl: http://localhost:9000/drivers 
+    fromemail: infringements@infringements.com
+    adminemail: admin@infringements.com
+
 jms:
   destination: emails
 camunda:

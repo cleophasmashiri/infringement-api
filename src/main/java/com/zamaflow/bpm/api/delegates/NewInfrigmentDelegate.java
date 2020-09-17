@@ -31,10 +31,15 @@ public class NewInfrigmentDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
         LOGGER.info("Sending Review Infringement Reminder to Admin");
         String plateNumber = delegateExecution.getVariable("plateNumber").toString();
-        String nationalIdNumber = delegateExecution.getVariable("driverIdNumber").toString();
         String infrigementType = delegateExecution.getVariable("infringementType").toString();
         String infringementNotes = delegateExecution.getVariable("infringementNotes").toString();
-        Infringement infringement = infringementService.createInfringement(delegateExecution.getProcessInstanceId(), plateNumber, nationalIdNumber, infrigementType, infringementNotes);
+        Infringement infringement = infringementService.createInfringement(delegateExecution.getProcessInstanceId(), plateNumber, infrigementType, infringementNotes);
+
+        if (infringement==null || infringement.getDriver()==null) {
+            throw new Exception("Driver is not defined: ");
+        }
+
+        delegateExecution.setVariable("driverIdNumber", infringement.getDriver().getNationalIdNumber());
         // saveImage(delegateExecution, infringement, "image1");
         // saveImage(delegateExecution, infringement, "image2");
         // saveImage(delegateExecution, infringement, "image3");

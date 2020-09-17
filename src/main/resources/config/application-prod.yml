@@ -12,6 +12,11 @@
 # Full reference is available at:
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
+bpm:
+  tasks:
+    baseurl: http://infringementweb/drivers 
+    fromemail: infringements@infringements.com
+    adminemail: admin@infringements.com
 jms:
   destination: emails
 logging:

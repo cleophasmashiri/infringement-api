@@ -18,7 +18,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.zamaflow.bpm.api.domain.Driver;
+import com.zamaflow.bpm.api.domain.Vehicle;
 import com.zamaflow.bpm.api.repository.DriverRepository;
+import com.zamaflow.bpm.api.repository.VehicleRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,6 +33,9 @@ public class InfringementBpmTest {
     private DriverRepository driverRepository;
 
     @Autowired
+    private VehicleRepository vehicleRepository;
+
+    @Autowired
     private RuntimeService runtimeService;
 
     private static final String TEST_PROCESS_KEY = "trafficProcess";
@@ -41,6 +46,12 @@ public class InfringementBpmTest {
         Driver driver = new Driver().firstName("Jim").lastName("Mike").email(DRIVER_EMAIL).cellNumber("+2773365537314")
             .nationalIdNumber("59C9999961212");
         driver = driverRepository.save(driver);
+
+        Vehicle vehicle = new Vehicle();
+        vehicle = vehicleRepository.save(vehicle
+        .plateNumber(getVariables().get("plateNumber").toString())
+        .driver(driver));
+
     }
 
 
@@ -95,35 +106,35 @@ public class InfringementBpmTest {
             .task().isAssignedTo(DRIVER_EMAIL);
 
         // TODO Fix test
-        // long time = ClockUtil.getCurrentTime().getTime();
-        // long seconds = 10 * 24 * 60 * 60;
-        // ClockUtil.setCurrentTime(new Date(time + seconds * 1000));
-        // Job job =
-        //     processEngine().getManagementService().createJobQuery().singleResult();
-        // processEngine().getManagementService().executeJob(job.getId());
+        long time = ClockUtil.getCurrentTime().getTime();
+        long seconds = 10 * 24 * 60 * 60;
+        ClockUtil.setCurrentTime(new Date(time + seconds * 1000));
+        Job job =
+            processEngine().getManagementService().createJobQuery().singleResult();
+        processEngine().getManagementService().executeJob(job.getId());
 
-        // assertThat(processInstance).hasPassed("sendDriverReminder");
+        assertThat(processInstance).hasPassed("sendDriverReminder");
 
-        // // Nominate Another Driver / Representation / Go To Court
-        // complete(task(), Variables.createVariables().putValue("driverSelects",
-        //     "Representation"));
+        // Nominate Another Driver / Representation / Go To Court
+        complete(task(), Variables.createVariables().putValue("driverSelects",
+            "Representation"));
 
-        // assertThat(processInstance).isWaitingAt("reviewDriverInfrigement").task().hasCandidateGroup("trafficAdmin");
+        assertThat(processInstance).isWaitingAt("reviewDriverInfrigement").task().hasCandidateGroup("trafficAdmin");
 
-        // long timeTrafficAdmin = ClockUtil.getCurrentTime().getTime();
-        // long secondsTrafficAdmin = 10 * 24 * 60 * 60;
-        // ClockUtil.setCurrentTime(new Date(timeTrafficAdmin + secondsTrafficAdmin *
-        //     1000));
-        // Job jobTrafficAdmin =
-        //     processEngine().getManagementService().createJobQuery().singleResult();
-        // processEngine().getManagementService().executeJob(jobTrafficAdmin.getId());
+        long timeTrafficAdmin = ClockUtil.getCurrentTime().getTime();
+        long secondsTrafficAdmin = 10 * 24 * 60 * 60;
+        ClockUtil.setCurrentTime(new Date(timeTrafficAdmin + secondsTrafficAdmin *
+            1000));
+        Job jobTrafficAdmin =
+            processEngine().getManagementService().createJobQuery().singleResult();
+        processEngine().getManagementService().executeJob(jobTrafficAdmin.getId());
 
-        // assertThat(processInstance).hasPassed("reminderNotifyTrafficAdmin");
+        assertThat(processInstance).hasPassed("reminderNotifyTrafficAdmin");
 
-        // complete(task(), Variables.createVariables().putValue("trafficAdminSelects",
-        //     "Cancel"));
+        complete(task(), Variables.createVariables().putValue("trafficAdminSelects",
+            "Cancel"));
 
-        // assertThat(processInstance).hasPassed("cancelInfrigement").isEnded();
+        assertThat(processInstance).hasPassed("cancelInfrigement").isEnded();
 
     }
 

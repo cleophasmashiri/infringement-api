@@ -109,17 +109,21 @@ public class InfringementServiceImpl implements InfringementService {
     }
 
     @Override
-    public Infringement createInfringement(final String processInstanceId, final String plateNumber, final String nationalIdNumber, final String infrigementType,
-            final String infringementNotes) {
+    public Infringement createInfringement(final String processInstanceId, final String plateNumber, final String infrigementType,
+            final String infringementNotes) throws Exception {
 
-        log.debug("creatInfringement... processInstanceId: " + processInstanceId + " plateNumber: " + plateNumber + " nationalIdNumber: " + nationalIdNumber + " infrigementType: " + infrigementType + " infringementNotes: " + infringementNotes);
+        log.debug("creatInfringement... processInstanceId: " + processInstanceId + " plateNumber: " + plateNumber + " infrigementType: " + infrigementType + " infringementNotes: " + infringementNotes);
 
         final List<Vehicle> vehicles = vehicleRepository.findByPlateNumber(plateNumber);
+
         final Vehicle vehicle = vehicles!=null && !vehicles.isEmpty()? vehicles.get(0): null;
 
-        final List<Driver> drivers = driverRepository.findByNationalIdNumber(nationalIdNumber);  
-        final Driver driver = drivers!=null && !drivers.isEmpty()? drivers.get(0): null;  
-        
+        Driver driver = vehicle.getDriver();
+
+        if (driver == null) {
+            throw new Exception("Driver not found for plateNumber: " + plateNumber);
+        }
+         
         Infringement infringement = new Infringement()
         .processInstanceId(processInstanceId)
         .infringementType(infrigementType)

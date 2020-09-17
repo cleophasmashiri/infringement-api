@@ -16,9 +16,10 @@ import java.util.List;
 public interface InfringementService {
 
 
-    Infringement createInfringement(String processInstanceId, String plateNumber, String nationalIdNumber, String infrigementType, String infringementNotes);
+    Infringement createInfringement(String processInstanceId, String plateNumber, String infrigementType, String infringementNotes) throws Exception;
 
     void creatInfringementAction(String processInstanceId,  String infringementNotes, InfringementActionType infringementActionType);
+
     void creatInfringementAction(Infringement infringement, final String processInstanceId,  final String infringementNotes, final InfringementActionType infringementActionType);
 
     Infringement getInfringmentByprocessInstanceId(String processInstance);

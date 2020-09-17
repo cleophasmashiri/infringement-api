@@ -101,7 +101,7 @@ public class DriverServiceImpl implements DriverService {
         if (drivers!=null && drivers.size() > 0) {
             return Optional.of(drivers.get(0));
         } else {
-            return Optional.of(null);
+            return Optional.ofNullable(null);
         }
     }
 
