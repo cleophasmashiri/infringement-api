@@ -39,6 +39,7 @@ public class NewInfringeNotifyDriverDelegate implements JavaDelegate {
         Driver driver = infringementService.findDriverByNationalIdNumber(driverIdNumber);
         Infringement infringement =  infringementService.getInfringmentByprocessInstanceId(delegateExecution.getProcessInstanceId());
         infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("infringementNotes").toString(), InfringementActionType.INFRINGEMENT_NOTIFICATION_SENT);
+        
         emailDispatcher.send(new Notification()
         .setSubject("New Infringement Notification")
         .setToFrom(fromEmail)
@@ -46,6 +47,8 @@ public class NewInfringeNotifyDriverDelegate implements JavaDelegate {
         .setBody("A new infringement created." + infringement.getInfringementType())
         .setAction(taskUrl)
         .setActionDescription("View Online"));
+
+
        
     }
 }

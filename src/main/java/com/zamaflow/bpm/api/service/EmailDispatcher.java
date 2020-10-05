@@ -1,8 +1,6 @@
 package com.zamaflow.bpm.api.service;
 
 import com.zamaflow.bpm.api.domain.Notification;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.scheduling.annotation.Async;
 
