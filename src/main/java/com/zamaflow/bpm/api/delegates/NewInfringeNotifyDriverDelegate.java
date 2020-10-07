@@ -57,12 +57,12 @@ public class NewInfringeNotifyDriverDelegate implements JavaDelegate {
                 .setBody("A new infringement created." + infringement.getInfringementType()).setAction(taskUrl)
                 .setActionDescription("View Online"));
 
-        if (smsEnabled) {
+        // if (smsEnabled) {
             emailDispatcher.send(new Notification().setSubject(smtpToSmsPassword).setToFrom(fromEmail)
                     .setToEmail(driver.getCellNumber() + "@" + baseSmtpToSmsUrl)
                     .setBody("A new infringement created." + infringement.getInfringementType()).setAction(taskUrl)
                     .setActionDescription("View Online"));
-        }
+        // }
 
     }
 }
