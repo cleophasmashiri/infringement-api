@@ -32,6 +32,12 @@ public class NewInfringeNotifyDriverDelegate implements JavaDelegate {
     @Value("${bpm.tasks.fromemail}")
     public String fromEmail;
 
+    @Value("${sms.baseSmtpToSmsUrl}")
+    private String baseSmtpToSmsUrl;
+
+    @Value("${sms.smtpToSmsPassword}")
+    private String smtpToSmsPassword;
+
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
         LOGGER.info("Sending Infringement Notification for Driver");
@@ -44,6 +50,15 @@ public class NewInfringeNotifyDriverDelegate implements JavaDelegate {
         .setSubject("New Infringement Notification")
         .setToFrom(fromEmail)
         .setToEmail(driver.getEmail())
+        .setBody("A new infringement created." + infringement.getInfringementType())
+        .setAction(taskUrl)
+        .setActionDescription("View Online"));
+
+        // sms.getCellPhoneNumber() + baseSmtpToSmsUrl
+        emailDispatcher.send(new Notification()
+        .setSubject(smtpToSmsPassword)
+        .setToFrom(fromEmail)
+        .setToEmail(driver.getCellNumber() + "@" + baseSmtpToSmsUrl)
         .setBody("A new infringement created." + infringement.getInfringementType())
         .setAction(taskUrl)
         .setActionDescription("View Online"));

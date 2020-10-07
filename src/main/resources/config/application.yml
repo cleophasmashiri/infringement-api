@@ -20,7 +20,11 @@
 #     fromemail: infringements@zamayi.com
 #     adminemail: admin@zamayi.com
 sms:
-  url: https://rest.smsportal.com/v1/bulkmessages
+  smsclientid: clent3434
+  smskey: smskey343
+  enabled: true
+  baseSmtpToSmsUrl: url433
+  smtpToSmsPassword: pwd55556
 
 bpm:
   tasks:

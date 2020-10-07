@@ -16,6 +16,8 @@ sms:
   smsclientid: ${HEROKU_SMS_CLIENT_ID}
   smskey: ${HEROKU_SMS_API_SECRET_KEY}
   enabled: ${HEROKU_SMS_ENABLED}
+  baseSmtpToSmsUrl: ${HEROKU_BASE_SMTP_SMS_URL}
+  smtpToSmsPassword: ${HEROKU_SMTP_SMS_PASSWORD}
 email:
   enabled: ${HEROKU_EMAIL_ENABLED}
 bpm:
