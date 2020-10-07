@@ -13,7 +13,11 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 sms:
-  url: https://rest.smsportal.com/v1/bulkmessages
+  smsclientid: clent3434
+  smskey: smskey343
+  enabled: true
+  baseSmtpToSmsUrl: url433
+  smtpToSmsPassword: pwd55556
 eureka:
   client:
     enabled: false

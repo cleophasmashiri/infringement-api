@@ -4,12 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
 import com.zamaflow.bpm.api.domain.SmsMessage;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 
 @Component
@@ -20,7 +16,7 @@ public class SmsSenderImpl {
     @Autowired
     private RestTemplate restTemplate;
     
-    @Value("${sms.url}")
+    // @Value("${sms.url}")
 	private String smsUrl;
   
     @Async

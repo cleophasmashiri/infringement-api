@@ -38,32 +38,31 @@ public class NewInfringeNotifyDriverDelegate implements JavaDelegate {
     @Value("${sms.smtpToSmsPassword}")
     private String smtpToSmsPassword;
 
+    @Value("${sms.enabled}")
+    private boolean smsEnabled;
+
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
         LOGGER.info("Sending Infringement Notification for Driver");
         String driverIdNumber = delegateExecution.getVariable("driverIdNumber").toString();
         Driver driver = infringementService.findDriverByNationalIdNumber(driverIdNumber);
-        Infringement infringement =  infringementService.getInfringmentByprocessInstanceId(delegateExecution.getProcessInstanceId());
-        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("infringementNotes").toString(), InfringementActionType.INFRINGEMENT_NOTIFICATION_SENT);
-        
-        emailDispatcher.send(new Notification()
-        .setSubject("New Infringement Notification")
-        .setToFrom(fromEmail)
-        .setToEmail(driver.getEmail())
-        .setBody("A new infringement created." + infringement.getInfringementType())
-        .setAction(taskUrl)
-        .setActionDescription("View Online"));
+        Infringement infringement = infringementService
+                .getInfringmentByprocessInstanceId(delegateExecution.getProcessInstanceId());
+        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(),
+                delegateExecution.getVariable("infringementNotes").toString(),
+                InfringementActionType.INFRINGEMENT_NOTIFICATION_SENT);
 
-        // sms.getCellPhoneNumber() + baseSmtpToSmsUrl
-        emailDispatcher.send(new Notification()
-        .setSubject(smtpToSmsPassword)
-        .setToFrom(fromEmail)
-        .setToEmail(driver.getCellNumber() + "@" + baseSmtpToSmsUrl)
-        .setBody("A new infringement created." + infringement.getInfringementType())
-        .setAction(taskUrl)
-        .setActionDescription("View Online"));
+        emailDispatcher.send(new Notification().setSubject("New Infringement Notification").setToFrom(fromEmail)
+                .setToEmail(driver.getEmail())
+                .setBody("A new infringement created." + infringement.getInfringementType()).setAction(taskUrl)
+                .setActionDescription("View Online"));
 
+        if (smsEnabled) {
+            emailDispatcher.send(new Notification().setSubject(smtpToSmsPassword).setToFrom(fromEmail)
+                    .setToEmail(driver.getCellNumber() + "@" + baseSmtpToSmsUrl)
+                    .setBody("A new infringement created." + infringement.getInfringementType()).setAction(taskUrl)
+                    .setActionDescription("View Online"));
+        }
 
-       
     }
 }
