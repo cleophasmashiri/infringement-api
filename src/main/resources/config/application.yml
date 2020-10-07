@@ -19,6 +19,8 @@
 #     baseurl: http://localhost:4200/process/tasklist/
 #     fromemail: infringements@zamayi.com
 #     adminemail: admin@zamayi.com
+sms:
+  url: https://rest.smsportal.com/v1/bulkmessages
 
 bpm:
   tasks:

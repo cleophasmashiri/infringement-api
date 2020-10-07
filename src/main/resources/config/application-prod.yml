@@ -21,7 +21,7 @@ email:
 bpm:
   tasks:
     baseurl: http://infringementweb/drivers 
-    fromemail: infringements@infringements.com
+    fromemail: ${HEROKU_EMAIL_SMTP_FROM}
     adminemail: admin@infringements.com
 jms:
   destination: emails
