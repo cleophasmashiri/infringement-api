@@ -20,7 +20,7 @@ email:
   enabled: ${HEROKU_EMAIL_ENABLED}
 bpm:
   tasks:
-    baseurl: http://infringementweb/drivers 
+    baseurl: ${HEROKU_DRIVERS_URL}
     fromemail: ${HEROKU_EMAIL_SMTP_FROM}
     adminemail: admin@infringements.com
 jms:
