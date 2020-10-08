@@ -18,6 +18,7 @@ sms:
   enabled: ${HEROKU_SMS_ENABLED}
   baseSmtpToSmsUrl: ${HEROKU_BASE_SMTP_SMS_URL}
   smtpToSmsPassword: ${HEROKU_SMTP_SMS_PASSWORD}
+  fromPhoneNumber:  ${HEROKU_SMS_FROM_CELL_NUMBER}
 email:
   enabled: ${HEROKU_EMAIL_ENABLED}
 bpm:

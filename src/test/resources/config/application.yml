@@ -15,9 +15,10 @@
 sms:
   smsclientid: clent3434
   smskey: smskey343
-  enabled: true
+  enabled: false
   baseSmtpToSmsUrl: url433
   smtpToSmsPassword: pwd55556
+  fromPhoneNumber: 045445454545
 eureka:
   client:
     enabled: false

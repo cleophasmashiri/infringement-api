@@ -250,6 +250,12 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>8.0.0</version>
+        </dependency>
+
         <!-- flying saucer pdf -->
 		<dependency>
 			<groupId>org.xhtmlrenderer</groupId>

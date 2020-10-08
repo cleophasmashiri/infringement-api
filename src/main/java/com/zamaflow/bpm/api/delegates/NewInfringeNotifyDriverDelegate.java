@@ -3,9 +3,11 @@ package com.zamaflow.bpm.api.delegates;
 import com.zamaflow.bpm.api.domain.Driver;
 import com.zamaflow.bpm.api.domain.Infringement;
 import com.zamaflow.bpm.api.domain.Notification;
+import com.zamaflow.bpm.api.domain.SmsMessage;
 import com.zamaflow.bpm.api.domain.enumeration.InfringementActionType;
 import com.zamaflow.bpm.api.service.EmailDispatcher;
 import com.zamaflow.bpm.api.service.InfringementService;
+import com.zamaflow.bpm.api.service.impl.SmsSenderImpl;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -25,6 +27,9 @@ public class NewInfringeNotifyDriverDelegate implements JavaDelegate {
 
     @Autowired
     private EmailDispatcher emailDispatcher;
+
+    @Autowired
+    private SmsSenderImpl smsSenderImpl;
 
     @Value("${bpm.tasks.baseurl}")
     public String taskUrl;
@@ -57,12 +62,10 @@ public class NewInfringeNotifyDriverDelegate implements JavaDelegate {
                 .setBody("A new infringement created." + infringement.getInfringementType()).setAction(taskUrl)
                 .setActionDescription("View Online"));
 
-        // if (smsEnabled) {
-            emailDispatcher.send(new Notification().setSubject(smtpToSmsPassword).setToFrom(fromEmail)
-                    .setToEmail(driver.getCellNumber() + "@" + baseSmtpToSmsUrl)
-                    .setBody("A new infringement created." + infringement.getInfringementType()).setAction(taskUrl)
-                    .setActionDescription("View Online"));
-        // }
+        if (smsEnabled) {
+                String message = "A new infringement created." + infringement.getInfringementType() + ". Click the following for more details, " + taskUrl + '.';
+                smsSenderImpl.sendSms(new SmsMessage(driver.getCellNumber(), message));
+        }
 
     }
 }
