@@ -29,7 +29,7 @@ public class NewInfrigmentDelegate implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        LOGGER.info("Sending Review Infringement Reminder to Admin");
+        LOGGER.info("New Infringement..");
         String plateNumber = delegateExecution.getVariable("plateNumber").toString();
         String infrigementType = delegateExecution.getVariable("infringementType").toString();
         String infringementNotes = delegateExecution.getVariable("infringementNotes").toString();
