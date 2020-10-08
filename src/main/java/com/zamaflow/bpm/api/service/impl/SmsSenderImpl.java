@@ -34,8 +34,8 @@ public class SmsSenderImpl {
     public void sendSms(SmsMessage sms) {
         LOGGER.info("Sending sms .. " + sms.getSmsContent() + " to: " + sms.getCellPhoneNumber());
 
-        Message.creator(new PhoneNumber(fromPhoneNumber),
-        new PhoneNumber(sms.getCellPhoneNumber()), 
+        Message.creator(new PhoneNumber(sms.getCellPhoneNumber()), 
+        new PhoneNumber(fromPhoneNumber),
         sms.getSmsContent()).create();
 
     }

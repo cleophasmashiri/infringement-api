@@ -58,12 +58,12 @@ public class NewInfringeNotifyDriverDelegate implements JavaDelegate {
                                 InfringementActionType.INFRINGEMENT_NOTIFICATION_SENT);
 
                 LOGGER.info("Sending SMS smsEnabled:.." + smsEnabled);
-                if ("true".equals(smsEnabled)) {
+                //if ("true".equals(smsEnabled)) {
                         LOGGER.info("Sending SMS smsEnabled inside:" + smsEnabled);
                         String message = "A new infringement created." + infringement.getInfringementType()
                                         + ". Click the following for more details, " + taskUrl + '.';
                         smsSenderImpl.sendSms(new SmsMessage(driver.getCellNumber(), message));
-                }
+                //}
 
                 emailDispatcher.send(new Notification().setSubject("New Infringement Notification").setToFrom(fromEmail)
                                 .setToEmail(driver.getEmail())
