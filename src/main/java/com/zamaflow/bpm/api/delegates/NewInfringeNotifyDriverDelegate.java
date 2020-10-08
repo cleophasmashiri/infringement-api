@@ -44,7 +44,7 @@ public class NewInfringeNotifyDriverDelegate implements JavaDelegate {
     private String smtpToSmsPassword;
 
     @Value("${sms.enabled}")
-    private boolean smsEnabled;
+    private String smsEnabled;
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
@@ -62,7 +62,7 @@ public class NewInfringeNotifyDriverDelegate implements JavaDelegate {
                 .setBody("A new infringement created." + infringement.getInfringementType()).setAction(taskUrl)
                 .setActionDescription("View Online"));
 
-        if (smsEnabled) {
+        if ("true".equals(smsEnabled)) {
                 String message = "A new infringement created." + infringement.getInfringementType() + ". Click the following for more details, " + taskUrl + '.';
                 smsSenderImpl.sendSms(new SmsMessage(driver.getCellNumber(), message));
         }
