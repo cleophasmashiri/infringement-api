@@ -42,6 +42,12 @@ public class InfringementAction implements Serializable {
     @Column(name = "done_by")
     private String doneBy;
 
+    @Column(name = "amount")
+    private double amount;
+
+    @Column(name = "points")
+    private int points;
+
     @ManyToOne
     @JsonIgnoreProperties(value = "infringementActions", allowSetters = true)
     private Infringement infringement;
@@ -55,8 +61,30 @@ public class InfringementAction implements Serializable {
         this.id = id;
     }
 
-    public String getProcessInstanceId() {
-        return processInstanceId;
+    public int getPoints() {
+        return points;
+    }
+
+    public InfringementAction points(int points) {
+        this.points = points;
+        return this;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public InfringementAction amount(double amount) {
+        this.amount = amount;
+        return this;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     public InfringementAction processInstanceId(String processInstanceId) {
@@ -66,6 +94,10 @@ public class InfringementAction implements Serializable {
 
     public void setProcessInstanceId(String processInstanceId) {
         this.processInstanceId = processInstanceId;
+    }
+
+    public String getProcessInstanceId() {
+        return this.processInstanceId;
     }
 
     public String getNotes() {

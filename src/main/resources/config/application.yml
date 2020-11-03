@@ -25,7 +25,7 @@ sms:
   enabled: true
   baseSmtpToSmsUrl: url433
   smtpToSmsPassword: pwd55556
-
+  fromPhoneNumber: 09858585858
 bpm:
   tasks:
     baseurl: http://localhost:9000/drivers 

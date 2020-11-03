@@ -1,5 +1,6 @@
 package com.zamaflow.bpm.api.web.rest;
 
+import com.zamaflow.bpm.api.domain.enumeration.InfringementActionType;
 import com.zamaflow.bpm.api.domain.InfringementAction;
 import com.zamaflow.bpm.api.repository.InfringementActionRepository;
 import com.zamaflow.bpm.api.web.rest.errors.BadRequestAlertException;
@@ -88,6 +89,28 @@ public class InfringementActionResource {
     public List<InfringementAction> getAllInfringementActions() {
         log.debug("REST request to get all InfringementActions");
         return infringementActionRepository.findAll();
+    }
+
+    /**
+     * {@code GET  /infringement-actions}/infringementId/{infringementId}/InfringementActionType/{InfringementActionType} : get all the infringementActions.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infringementActions in body.
+     */
+    @GetMapping("/infringement-actions/infringementId/{infringementId}/infringementActionType/{InfringementActionType}")
+    public List<InfringementAction> getInfringementActionsByIdAndActionType(@PathVariable Long infringementId, @PathVariable InfringementActionType infringementActionType ) {
+        log.debug("REST request to get all InfringementActions");
+        return infringementActionRepository.findByInfringementIdActionType(infringementId, infringementActionType);
+    }
+
+     /**
+     * {@code GET  /infringement-actions}/driverId/{driverId}/InfringementActionType/{InfringementActionType} : get all the infringementActions.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infringementActions in body.
+     */
+    @GetMapping("/infringement-actions/driverId/{driverId}/infringementActionType/{InfringementActionType}")
+    public List<InfringementAction> getInfringementActionsByDriverIdAndActionType(@PathVariable Long driverId, @PathVariable InfringementActionType infringementActionType ) {
+        log.debug("REST request to get driverId and InfringementActionType InfringementActions");
+        return infringementActionRepository.findByDriverActionType(driverId, infringementActionType);
     }
 
     /**
