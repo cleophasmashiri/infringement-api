@@ -136,11 +136,11 @@
       <bpmn:incoming>Flow_0vw7xd3</bpmn:incoming>
       <bpmn:outgoing>Flow_1gmk7t7</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_0t93ft0" name="Create Demerit">
+    <bpmn:serviceTask id="Activity_0t93ft0" name="Create Demerit" camunda:delegateExpression="#{createDemeritDelegate}">
       <bpmn:incoming>Flow_0cyunqa</bpmn:incoming>
       <bpmn:outgoing>Flow_1lmu0de</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_0zzmr7q" name="Create Fine">
+    <bpmn:serviceTask id="Activity_0zzmr7q" name="Create Fine" camunda:delegateExpression="#{createFineDelegate}">
       <bpmn:incoming>Flow_1gmk7t7</bpmn:incoming>
       <bpmn:outgoing>Flow_0cyunqa</bpmn:outgoing>
     </bpmn:serviceTask>
