@@ -46,7 +46,7 @@ public class NewInfringeNotifyDriverDelegate implements JavaDelegate {
                                 .getInfringmentByprocessInstanceId(delegateExecution.getProcessInstanceId());
                 infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(),
                                 delegateExecution.getVariable("infringementNotes").toString(),
-                                InfringementActionType.INFRINGEMENT_NOTIFICATION_SENT);
+                                InfringementActionType.INFRINGEMENT_NOTIFICATION_SENT, 0.0, 0);
 
                 emailDispatcher.send(new Notification().setSubject("New Infringement Notification").setToFrom(fromEmail)
                                 .setToEmail(driver.getEmail())

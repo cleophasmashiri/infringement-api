@@ -24,6 +24,6 @@ public class CancelInfrigmentDelegate implements JavaDelegate {
         delegateExecution.setVariable("CancelInfrigmentDelegate", Boolean.TRUE);
         LOGGER.info("Cancel Infrigment");
         Infringement infringement =  infringmentService.getInfringmentByprocessInstanceId(delegateExecution.getProcessInstanceId());
-        infringmentService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("adminNotes").toString(), InfringementActionType.INFRINGEMENT_CANCEL);
+        infringmentService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("adminNotes").toString(), InfringementActionType.INFRINGEMENT_CANCEL, 0.0, 0);
     }
 }

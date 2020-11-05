@@ -49,7 +49,7 @@ public class AssignDriverTaskListener implements TaskListener {
         Infringement infringement = infringementService
                 .getInfringmentByprocessInstanceId(delegateTask.getProcessInstanceId());
         infringementService.creatInfringementAction(infringement, delegateTask.getProcessInstanceId(),
-                delegateTask.getVariable("driverNotes").toString(), InfringementActionType.INFRINGEMENT_ASSIGN_DRIVER);
+                delegateTask.getVariable("driverNotes").toString(), InfringementActionType.INFRINGEMENT_ASSIGN_DRIVER, 0.0, 0);
 
         emailDispatcher.send(new Notification().setSubject("New Infringement Notification").setToFrom(fromEmail)
                 .setToEmail(driver.getEmail())

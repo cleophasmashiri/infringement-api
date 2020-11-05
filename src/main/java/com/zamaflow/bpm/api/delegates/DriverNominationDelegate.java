@@ -23,6 +23,6 @@ public class DriverNominationDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
         LOGGER.info("DriverNomination");
         Infringement infringement =  infringementService.getInfringmentByprocessInstanceId(delegateExecution.getProcessInstanceId());
-        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("driverNotes").toString(), InfringementActionType.INFRINGEMENT_DRIVER_NOMINATION);
+        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("driverNotes").toString(), InfringementActionType.INFRINGEMENT_DRIVER_NOMINATION, 0.0, 0);
     }
 }

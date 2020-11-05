@@ -107,7 +107,7 @@ public class InfringementActionResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of infringementActions in body.
      */
-    @GetMapping("/infringement-actions/driverId/{driverId}/infringementActionType/{InfringementActionType}")
+    @GetMapping("/infringement-actions/driverId/{driverId}/infringementActionType/{infringementActionType}")
     public List<InfringementAction> getInfringementActionsByDriverIdAndActionType(@PathVariable Long driverId, @PathVariable InfringementActionType infringementActionType ) {
         log.debug("REST request to get driverId and InfringementActionType InfringementActions");
         return infringementActionRepository.findByDriverActionType(driverId, infringementActionType);

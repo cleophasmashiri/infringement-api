@@ -146,7 +146,7 @@ public class InfringementServiceImpl implements InfringementService {
     }
 
     @Override
-    public void creatInfringementAction(final String processInstanceId,  final String infringementNotes, final InfringementActionType infringementActionType) {
+    public void creatInfringementAction(final String processInstanceId,  final String infringementNotes, final InfringementActionType infringementActionType, double amount, int points) {
 
         log.debug("creatInfringementAction... processInstanceId: " + processInstanceId  + " infringementActionType: " + infringementActionType + " infringementNotes: " + infringementNotes);
 
@@ -159,14 +159,17 @@ public class InfringementServiceImpl implements InfringementService {
             .dateDone(Instant.now())
             .infringement(infringement)
             .infringementActionType(infringementActionType)
-            .notes(infringementNotes);
+            .notes(infringementNotes)
+            .amount(amount)
+            .points(points);
+            
             infringementActionRepository.save(infringementAction);
         }
 
     }
 
     @Override
-    public void creatInfringementAction(Infringement infringement, final String processInstanceId,  final String infringementNotes, final InfringementActionType infringementActionType) {
+    public void creatInfringementAction(Infringement infringement, final String processInstanceId,  final String infringementNotes, final InfringementActionType infringementActionType, double amount, int points) {
 
         log.debug("creatInfringementAction... processInstanceId: " + processInstanceId  + " infringementActionType: " + infringementActionType + " infringementNotes: " + infringementNotes);
     
@@ -174,7 +177,9 @@ public class InfringementServiceImpl implements InfringementService {
             final InfringementAction infringementAction = new InfringementAction()
             .dateDone(Instant.now())
             .infringementActionType(infringementActionType)
-            .infringement(infringement);
+            .infringement(infringement)
+            .amount(amount)
+            .points(points);
             infringementActionRepository.save(infringementAction);
         }
 

@@ -23,7 +23,9 @@
     <include file="config/liquibase/changelog/20200730191939_added_entity_constraints_Vehicle.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200730192039_added_entity_constraints_Infringement.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200730192139_added_entity_constraints_Document.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200730192239_added_entity_constraints_InfringementAction.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200730192239_added_entity_constraints_InfringementAction.xml" firelativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201104142724_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201104183552_changelog.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

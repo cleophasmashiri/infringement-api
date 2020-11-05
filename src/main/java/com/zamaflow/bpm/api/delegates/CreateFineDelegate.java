@@ -13,18 +13,17 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class CreateCourtDocsDelegate implements JavaDelegate {
+public class CreateFineDelegate implements JavaDelegate {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(CreateCourtDocsDelegate.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CreateFineDelegate.class);
 
     @Autowired
     private InfringementService infringementService;
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        delegateExecution.setVariable("passedCreditCheck", Boolean.TRUE);
         LOGGER.info("NewInfrigment sent");
         Infringement infringement =  infringementService.getInfringmentByprocessInstanceId(delegateExecution.getProcessInstanceId());
-        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("adminNotes").toString(), InfringementActionType.INFRINGEMENT_CREATED_COURT_CASE);
+        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("adminNotes").toString(), InfringementActionType.INFRINGEMENT_CREATE_FINE, 100, 0);
     }
 }

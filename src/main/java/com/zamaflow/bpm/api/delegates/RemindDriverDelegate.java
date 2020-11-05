@@ -38,7 +38,7 @@ public class RemindDriverDelegate implements JavaDelegate {
         String driverIdNumber = delegateExecution.getVariable("driverIdNumber").toString();
         Driver driver = infringementService.findDriverByNationalIdNumber(driverIdNumber);
         Infringement infringement =  infringementService.getInfringmentByprocessInstanceId(delegateExecution.getProcessInstanceId());
-        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("infringementNotes").toString(), InfringementActionType.INFRINGEMENT_REMINDER_NOTIFICATION_SENT);
+        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("infringementNotes").toString(), InfringementActionType.INFRINGEMENT_REMINDER_NOTIFICATION_SENT, 0.0, 0);
         emailDispatcher.send(new Notification()
         .setSubject("Infringement Notification Reminder")
         .setToFrom(fromEmail)

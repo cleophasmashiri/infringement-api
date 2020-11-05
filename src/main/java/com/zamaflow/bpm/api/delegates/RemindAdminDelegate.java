@@ -38,7 +38,7 @@ public class RemindAdminDelegate implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
         LOGGER.info("Sending Review Infringement Reminder to Admin");
         Infringement infringement =  infringementService.getInfringmentByprocessInstanceId(delegateExecution.getProcessInstanceId());
-        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("infringementNotes").toString(), InfringementActionType.INFRINGEMENT_ADMIN_REMINDER_NOTIFICATION_SENT);
+        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("infringementNotes").toString(), InfringementActionType.INFRINGEMENT_ADMIN_REMINDER_NOTIFICATION_SENT, 0.0, 0);
         emailDispatcher.send(new Notification()
         .setSubject("Infringement Review Task Reminder")
         .setToFrom(fromEmail)

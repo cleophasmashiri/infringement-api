@@ -30,9 +30,16 @@
             <column name="done_by" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="infringement_id" type="bigint">
+            <column name="points" type="int">
                 <constraints nullable="true" />
             </column>
+            <column name="amount" type="double">
+                <constraints nullable="true" />
+            </column>
+             <column name="infringement_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+             
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="infringement_action" columnName="date_done" columnDataType="datetime"/>

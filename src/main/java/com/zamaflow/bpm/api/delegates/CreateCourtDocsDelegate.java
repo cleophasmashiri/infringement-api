@@ -25,6 +25,6 @@ public class CreateCourtDocsDelegate implements JavaDelegate {
         delegateExecution.setVariable("passedCreditCheck", Boolean.TRUE);
         LOGGER.info("NewInfrigment sent");
         Infringement infringement =  infringementService.getInfringmentByprocessInstanceId(delegateExecution.getProcessInstanceId());
-        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("adminNotes").toString(), InfringementActionType.INFRINGEMENT_CREATED_COURT_CASE);
+        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("adminNotes").toString(), InfringementActionType.INFRINGEMENT_CREATED_COURT_CASE, 0.0, 0);
     }
 }

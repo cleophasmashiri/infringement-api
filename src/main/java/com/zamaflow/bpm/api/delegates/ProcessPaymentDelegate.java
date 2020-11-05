@@ -25,6 +25,6 @@ public class ProcessPaymentDelegate implements JavaDelegate {
         delegateExecution.setVariable("ProcessPayment", Boolean.TRUE);
         LOGGER.info("ProcessPayment");
         Infringement infringement =  infringementService.getInfringmentByprocessInstanceId(delegateExecution.getProcessInstanceId());
-        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("driverNotes").toString(), InfringementActionType.INFRINGEMENT_PAYMENT_DONE);
+        infringementService.creatInfringementAction(infringement, delegateExecution.getProcessInstanceId(), delegateExecution.getVariable("driverNotes").toString(), InfringementActionType.INFRINGEMENT_PAYMENT_DONE, 0.0, 0);
     }
 }

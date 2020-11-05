@@ -1,0 +1,405 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="cleophas (generated)" id="1604514965741-1">
+        <createSequence incrementBy="50" sequenceName="sequence_generator" startValue="1"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-2">
+        <createTable tableName="document">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="documentPK"/>
+            </column>
+            <column name="content" type="BLOB"/>
+            <column name="content_content_type" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="infringement_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-3">
+        <createTable tableName="driver">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="driverPK"/>
+            </column>
+            <column name="cell_number" type="VARCHAR(255)"/>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="middle_name" type="VARCHAR(255)"/>
+            <column name="national_id_number" type="VARCHAR(255)"/>
+            <column name="province" type="VARCHAR(255)"/>
+            <column name="street_name" type="VARCHAR(255)"/>
+            <column name="street_property_number" type="VARCHAR(255)"/>
+            <column name="suburb" type="VARCHAR(255)"/>
+            <column name="unit_number" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-4">
+        <createTable tableName="infringement">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="infringementPK"/>
+            </column>
+            <column name="date_done" type="TIMESTAMP"/>
+            <column name="done_by" type="VARCHAR(255)"/>
+            <column name="infringement_type" type="VARCHAR(255)"/>
+            <column name="process_instance_id" type="VARCHAR(255)"/>
+            <column name="driver_id" type="BIGINT"/>
+            <column name="vehicle_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-5">
+        <createTable tableName="infringement_action">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="infringement_actionPK"/>
+            </column>
+            <column name="amount" type="DOUBLE"/>
+            <column name="date_done" type="TIMESTAMP"/>
+            <column name="done_by" type="VARCHAR(255)"/>
+            <column name="infringement_action_type" type="VARCHAR(255)"/>
+            <column name="notes" type="VARCHAR(255)"/>
+            <column name="points" type="INT"/>
+            <column name="process_instance_id" type="VARCHAR(255)"/>
+            <column name="infringement_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-6">
+        <createTable tableName="jhi_persistent_audit_event">
+            <column autoIncrement="true" name="event_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jhi_persistent_audit_eventPK"/>
+            </column>
+            <column name="event_date" type="TIMESTAMP"/>
+            <column name="event_type" type="VARCHAR(255)"/>
+            <column name="principal" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-7">
+        <createTable tableName="jhi_persistent_audit_evt_data">
+            <column name="event_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="value" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-8">
+        <createTable tableName="vehicle">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="vehiclePK"/>
+            </column>
+            <column name="chassis_number" type="VARCHAR(255)"/>
+            <column name="color" type="VARCHAR(255)"/>
+            <column name="engine_number" type="VARCHAR(255)"/>
+            <column name="make" type="VARCHAR(255)"/>
+            <column name="model" type="VARCHAR(255)"/>
+            <column name="plate_number" type="VARCHAR(255)"/>
+            <column name="year_first_registered" type="VARCHAR(255)"/>
+            <column name="driver_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-9">
+        <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="jhi_persistent_audit_evt_data" constraintName="FK2ehnyx2si4tjd2nt4q7y40v8m" deferrable="false" initiallyDeferred="false" referencedColumnNames="event_id" referencedTableName="jhi_persistent_audit_event" validate="true"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-10">
+        <addForeignKeyConstraint baseColumnNames="driver_id" baseTableName="vehicle" constraintName="FKdpor9ohov2f3optwe7twe49tt" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="driver" validate="true"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-11">
+        <addForeignKeyConstraint baseColumnNames="driver_id" baseTableName="infringement" constraintName="FKmput24u8b8ebo9m455ugitbdh" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="driver" validate="true"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-12">
+        <addForeignKeyConstraint baseColumnNames="vehicle_id" baseTableName="infringement" constraintName="FKobffacq2r9dhkykvphvso42g8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vehicle" validate="true"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-13">
+        <addForeignKeyConstraint baseColumnNames="infringement_id" baseTableName="document" constraintName="FKqr5seb66r3v75rs7wtpu8sru9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="infringement" validate="true"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-14">
+        <addForeignKeyConstraint baseColumnNames="infringement_id" baseTableName="infringement_action" constraintName="FKt62wnex3xr2bukc02thlw74bw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="infringement" validate="true"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-15">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_IDENTITYLINK" constraintName="ACT_FK_ATHRZ_PROCEDEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-16">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_BATCH" constraintName="ACT_FK_BATCH_JOB_DEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-17">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_BATCH" constraintName="ACT_FK_BATCH_MONITOR_JOB_DEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-18">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_BATCH" constraintName="ACT_FK_BATCH_SEED_JOB_DEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-19">
+        <dropForeignKeyConstraint baseTableName="ACT_GE_BYTEARRAY" constraintName="ACT_FK_BYTEARR_DEPL"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-20">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_CASE_EXECUTION" constraintName="ACT_FK_CASE_EXE_CASE_DEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-21">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_CASE_EXECUTION" constraintName="ACT_FK_CASE_EXE_CASE_INST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-22">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_CASE_EXECUTION" constraintName="ACT_FK_CASE_EXE_PARENT"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-23">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_CASE_SENTRY_PART" constraintName="ACT_FK_CASE_SENTRY_CASE_EXEC"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-24">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_CASE_SENTRY_PART" constraintName="ACT_FK_CASE_SENTRY_CASE_INST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-25">
+        <dropForeignKeyConstraint baseTableName="ACT_RE_DECISION_DEF" constraintName="ACT_FK_DEC_REQ"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-26">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_EVENT_SUBSCR" constraintName="ACT_FK_EVENT_EXEC"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-27">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_EXECUTION" constraintName="ACT_FK_EXE_PARENT"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-28">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_EXECUTION" constraintName="ACT_FK_EXE_PROCDEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-29">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_EXECUTION" constraintName="ACT_FK_EXE_PROCINST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-30">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_EXECUTION" constraintName="ACT_FK_EXE_SUPER"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-31">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_EXT_TASK" constraintName="ACT_FK_EXT_TASK_ERROR_DETAILS"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-32">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_EXT_TASK" constraintName="ACT_FK_EXT_TASK_EXE"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-33">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_INCIDENT" constraintName="ACT_FK_INC_CAUSE"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-34">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_INCIDENT" constraintName="ACT_FK_INC_EXE"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-35">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_INCIDENT" constraintName="ACT_FK_INC_JOB_DEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-36">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_INCIDENT" constraintName="ACT_FK_INC_PROCDEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-37">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_INCIDENT" constraintName="ACT_FK_INC_PROCINST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-38">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_INCIDENT" constraintName="ACT_FK_INC_RCAUSE"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-39">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_JOB" constraintName="ACT_FK_JOB_EXCEPTION"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-40">
+        <dropForeignKeyConstraint baseTableName="ACT_ID_MEMBERSHIP" constraintName="ACT_FK_MEMB_GROUP"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-41">
+        <dropForeignKeyConstraint baseTableName="ACT_ID_MEMBERSHIP" constraintName="ACT_FK_MEMB_USER"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-42">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_TASK" constraintName="ACT_FK_TASK_CASE_DEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-43">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_TASK" constraintName="ACT_FK_TASK_CASE_EXE"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-44">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_TASK" constraintName="ACT_FK_TASK_EXE"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-45">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_TASK" constraintName="ACT_FK_TASK_PROCDEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-46">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_TASK" constraintName="ACT_FK_TASK_PROCINST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-47">
+        <dropForeignKeyConstraint baseTableName="ACT_ID_TENANT_MEMBER" constraintName="ACT_FK_TENANT_MEMB"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-48">
+        <dropForeignKeyConstraint baseTableName="ACT_ID_TENANT_MEMBER" constraintName="ACT_FK_TENANT_MEMB_GROUP"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-49">
+        <dropForeignKeyConstraint baseTableName="ACT_ID_TENANT_MEMBER" constraintName="ACT_FK_TENANT_MEMB_USER"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-50">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_IDENTITYLINK" constraintName="ACT_FK_TSKASS_TASK"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-51">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_VARIABLE" constraintName="ACT_FK_VAR_BYTEARRAY"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-52">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_VARIABLE" constraintName="ACT_FK_VAR_CASE_EXE"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-53">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_VARIABLE" constraintName="ACT_FK_VAR_CASE_INST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-54">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_VARIABLE" constraintName="ACT_FK_VAR_EXE"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-55">
+        <dropForeignKeyConstraint baseTableName="ACT_RU_VARIABLE" constraintName="ACT_FK_VAR_PROCINST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-56">
+        <dropUniqueConstraint constraintName="ACT_UNIQ_AUTH_GROUP" tableName="ACT_RU_AUTHORIZATION"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-57">
+        <dropUniqueConstraint constraintName="ACT_UNIQ_AUTH_USER" tableName="ACT_RU_AUTHORIZATION"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-58">
+        <dropUniqueConstraint constraintName="ACT_UNIQ_TENANT_MEMB_GROUP" tableName="ACT_ID_TENANT_MEMBER"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-59">
+        <dropUniqueConstraint constraintName="ACT_UNIQ_TENANT_MEMB_USER" tableName="ACT_ID_TENANT_MEMBER"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-60">
+        <dropUniqueConstraint constraintName="ACT_UNIQ_VARIABLE" tableName="ACT_RU_VARIABLE"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-61">
+        <dropUniqueConstraint constraintName="CONSTRAINT_8D1" tableName="ACT_HI_PROCINST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-62">
+        <dropUniqueConstraint constraintName="CONSTRAINT_CA49" tableName="ACT_HI_CASEINST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-63">
+        <dropTable tableName="ACT_GE_BYTEARRAY"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-64">
+        <dropTable tableName="ACT_GE_PROPERTY"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-65">
+        <dropTable tableName="ACT_GE_SCHEMA_LOG"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-66">
+        <dropTable tableName="ACT_HI_ACTINST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-67">
+        <dropTable tableName="ACT_HI_ATTACHMENT"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-68">
+        <dropTable tableName="ACT_HI_BATCH"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-69">
+        <dropTable tableName="ACT_HI_CASEACTINST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-70">
+        <dropTable tableName="ACT_HI_CASEINST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-71">
+        <dropTable tableName="ACT_HI_COMMENT"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-72">
+        <dropTable tableName="ACT_HI_DECINST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-73">
+        <dropTable tableName="ACT_HI_DEC_IN"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-74">
+        <dropTable tableName="ACT_HI_DEC_OUT"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-75">
+        <dropTable tableName="ACT_HI_DETAIL"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-76">
+        <dropTable tableName="ACT_HI_EXT_TASK_LOG"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-77">
+        <dropTable tableName="ACT_HI_IDENTITYLINK"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-78">
+        <dropTable tableName="ACT_HI_INCIDENT"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-79">
+        <dropTable tableName="ACT_HI_JOB_LOG"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-80">
+        <dropTable tableName="ACT_HI_OP_LOG"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-81">
+        <dropTable tableName="ACT_HI_PROCINST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-82">
+        <dropTable tableName="ACT_HI_TASKINST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-83">
+        <dropTable tableName="ACT_HI_VARINST"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-84">
+        <dropTable tableName="ACT_ID_GROUP"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-85">
+        <dropTable tableName="ACT_ID_INFO"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-86">
+        <dropTable tableName="ACT_ID_MEMBERSHIP"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-87">
+        <dropTable tableName="ACT_ID_TENANT"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-88">
+        <dropTable tableName="ACT_ID_TENANT_MEMBER"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-89">
+        <dropTable tableName="ACT_ID_USER"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-90">
+        <dropTable tableName="ACT_RE_CASE_DEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-91">
+        <dropTable tableName="ACT_RE_DECISION_DEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-92">
+        <dropTable tableName="ACT_RE_DECISION_REQ_DEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-93">
+        <dropTable tableName="ACT_RE_DEPLOYMENT"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-94">
+        <dropTable tableName="ACT_RE_PROCDEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-95">
+        <dropTable tableName="ACT_RU_AUTHORIZATION"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-96">
+        <dropTable tableName="ACT_RU_BATCH"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-97">
+        <dropTable tableName="ACT_RU_CASE_EXECUTION"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-98">
+        <dropTable tableName="ACT_RU_CASE_SENTRY_PART"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-99">
+        <dropTable tableName="ACT_RU_EVENT_SUBSCR"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-100">
+        <dropTable tableName="ACT_RU_EXECUTION"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-101">
+        <dropTable tableName="ACT_RU_EXT_TASK"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-102">
+        <dropTable tableName="ACT_RU_FILTER"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-103">
+        <dropTable tableName="ACT_RU_IDENTITYLINK"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-104">
+        <dropTable tableName="ACT_RU_INCIDENT"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-105">
+        <dropTable tableName="ACT_RU_JOB"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-106">
+        <dropTable tableName="ACT_RU_JOBDEF"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-107">
+        <dropTable tableName="ACT_RU_METER_LOG"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-108">
+        <dropTable tableName="ACT_RU_TASK"/>
+    </changeSet>
+    <changeSet author="cleophas (generated)" id="1604514965741-109">
+        <dropTable tableName="ACT_RU_VARIABLE"/>
+    </changeSet>
+</databaseChangeLog>
