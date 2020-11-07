@@ -3,9 +3,13 @@ package com.zamaflow.bpm.api.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -35,12 +39,19 @@ public class NotificationServiceImpl implements NotificationService {
         final MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = null;
         try {
-            helper = new MimeMessageHelper(message);
+        	boolean hasAttachment = notificationMessage.getAttachments()!=null && notificationMessage.getAttachments().size() > 0;
+            helper = new MimeMessageHelper(message, hasAttachment);
             helper.setFrom(notificationMessage.getToFrom());
             helper.setTo(notificationMessage.getToEmail());
             helper.setSubject(notificationMessage.getSubject());
             final String content = mailContentBuilder.build(notificationMessage);
             helper.setText(content, true);
+            if (hasAttachment) {         	
+            	for (File attachment: notificationMessage.getAttachments()) {
+            		FileSystemResource file = new FileSystemResource(attachment);
+            		helper.addAttachment(notificationMessage.getSubject() + ".pdf", file);
+            	}		
+            }
         } catch (final MessagingException e) {
             LOGGER.error("Error .. " + e );
         }

@@ -6,7 +6,7 @@
   <bpmn:process id="trafficProcess" name="Infringement Process" isExecutable="true">
     <bpmn:laneSet id="LaneSet_05yt80a">
       <bpmn:lane id="Lane_1wwi0yk" name="Driver">
-        <bpmn:flowNodeRef>diverNomination</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>driverNomination</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Gateway_182rfmm</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>sendDriverReminder</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_1x143dh</bpmn:flowNodeRef>
@@ -25,8 +25,7 @@
         <bpmn:flowNodeRef>Event_0tas3nb</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>cancelInfrigement</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_12ufu1v</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>generateCourtDocs</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Event_143gjh3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>processAdminAction</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>processPayment</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>processNewInfrigement</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0t93ft0</bpmn:flowNodeRef>
@@ -35,21 +34,22 @@
     </bpmn:laneSet>
     <bpmn:sequenceFlow id="Flow_0vw7xd3" sourceRef="issueNewInfrigementNotice" targetRef="processNewInfrigement" />
     <bpmn:sequenceFlow id="Flow_1gmk7t7" sourceRef="processNewInfrigement" targetRef="Activity_0zzmr7q" />
-    <bpmn:userTask id="diverNomination" name="Pay/Nominate Another Driver/Make Representation/Go To Court" camunda:formKey="DriverInfringement" camunda:assignee="driver">
+    <bpmn:userTask id="driverNomination" name="Pay/Nominate Another Driver/Make Representation/Go To Court" camunda:formKey="DriverInfringement" camunda:assignee="driver">
       <bpmn:extensionElements>
         <camunda:taskListener delegateExpression="#{assignDriverTaskListener}" event="create" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1lmu0de</bpmn:incoming>
+      <bpmn:incoming>Flow_19kfzvc</bpmn:incoming>
       <bpmn:outgoing>Flow_10b4x6v</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_1qdsyva" sourceRef="Event_1x143dh" targetRef="sendDriverReminder" />
-    <bpmn:boundaryEvent id="Event_1x143dh" cancelActivity="false" attachedToRef="diverNomination">
+    <bpmn:boundaryEvent id="Event_1x143dh" cancelActivity="false" attachedToRef="driverNomination">
       <bpmn:outgoing>Flow_1qdsyva</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_1qfuvdw">
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P10D</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
-    <bpmn:sequenceFlow id="Flow_10b4x6v" sourceRef="diverNomination" targetRef="Gateway_182rfmm" />
+    <bpmn:sequenceFlow id="Flow_10b4x6v" sourceRef="driverNomination" targetRef="Gateway_182rfmm" />
     <bpmn:sequenceFlow id="Flow_1sh908z" name="Pay" sourceRef="Gateway_182rfmm" targetRef="processPayment">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{driverSelects=="Pay"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -85,7 +85,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{trafficAdminSelects=='Cancel'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1x16u5q" sourceRef="cancelInfrigement" targetRef="Event_12ufu1v" />
-    <bpmn:sequenceFlow id="goToCourt" name="Go To Court" sourceRef="Gateway_0g09pvx" targetRef="generateCourtDocs" />
+    <bpmn:sequenceFlow id="goToCourt" name="Admin Action" sourceRef="Gateway_0g09pvx" targetRef="processAdminAction" />
     <bpmn:serviceTask id="cancelInfrigement" name="Process Cancel Infringement/Update Demerit" camunda:delegateExpression="#{cancelInfrigmentDelegate}">
       <bpmn:incoming>Flow_0x5i3be</bpmn:incoming>
       <bpmn:outgoing>Flow_1x16u5q</bpmn:outgoing>
@@ -93,14 +93,10 @@
     <bpmn:endEvent id="Event_12ufu1v">
       <bpmn:incoming>Flow_1x16u5q</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_05apkf2" sourceRef="generateCourtDocs" targetRef="Event_143gjh3" />
-    <bpmn:serviceTask id="generateCourtDocs" name="Generate Court Docs Notify Driver" camunda:delegateExpression="#{createCourtDocsDelegate}">
+    <bpmn:serviceTask id="processAdminAction" name="Process Admin Action" camunda:delegateExpression="#{processAdminActionDelegate}">
       <bpmn:incoming>goToCourt</bpmn:incoming>
-      <bpmn:outgoing>Flow_05apkf2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19kfzvc</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="Event_143gjh3">
-      <bpmn:incoming>Flow_05apkf2</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0fjwa0q" sourceRef="Event_1woyj2x" targetRef="reminderNotifyTrafficAdmin" />
     <bpmn:serviceTask id="reminderNotifyTrafficAdmin" name="Reminder Notification Admin" camunda:delegateExpression="#{remindAdminDelegate}">
       <bpmn:incoming>Flow_0fjwa0q</bpmn:incoming>
@@ -123,7 +119,7 @@
       <bpmn:incoming>Flow_1gh40nz</bpmn:incoming>
       <bpmn:outgoing>Flow_1wvm8ls</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_1lmu0de" sourceRef="Activity_0t93ft0" targetRef="diverNomination" />
+    <bpmn:sequenceFlow id="Flow_1lmu0de" sourceRef="Activity_0t93ft0" targetRef="driverNomination" />
     <bpmn:startEvent id="issueNewInfrigementNotice" name="Issue New Infrigement Notice" camunda:formKey="NewInfringement">
       <bpmn:outgoing>Flow_0vw7xd3</bpmn:outgoing>
     </bpmn:startEvent>
@@ -144,6 +140,7 @@
       <bpmn:incoming>Flow_1gmk7t7</bpmn:incoming>
       <bpmn:outgoing>Flow_0cyunqa</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_19kfzvc" sourceRef="processAdminAction" targetRef="driverNomination" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0k8jucu">
@@ -159,6 +156,15 @@
       <bpmndi:BPMNShape id="Lane_1wwi0yk_di" bpmnElement="Lane_1wwi0yk" isHorizontal="true">
         <dc:Bounds x="145" y="40" width="2205" height="230" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0cyunqa_di" bpmnElement="Flow_0cyunqa">
+        <di:waypoint x="490" y="620" />
+        <di:waypoint x="570" y="620" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lmu0de_di" bpmnElement="Flow_1lmu0de">
+        <di:waypoint x="620" y="580" />
+        <di:waypoint x="620" y="130" />
+        <di:waypoint x="700" y="130" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1wvm8ls_di" bpmnElement="Flow_1wvm8ls">
         <di:waypoint x="1260" y="260" />
         <di:waypoint x="1260" y="360" />
@@ -169,16 +175,13 @@
         <di:waypoint x="1176" y="450" />
         <di:waypoint x="1160" y="450" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_05apkf2_di" bpmnElement="Flow_05apkf2">
-        <di:waypoint x="2080" y="600" />
-        <di:waypoint x="2168" y="600" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0ul6jb1_di" bpmnElement="goToCourt">
-        <di:waypoint x="1415" y="380" />
-        <di:waypoint x="2030" y="380" />
+        <di:waypoint x="1410" y="375" />
+        <di:waypoint x="1410" y="350" />
+        <di:waypoint x="2030" y="350" />
         <di:waypoint x="2030" y="560" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1651" y="363" width="60" height="14" />
+          <dc:Bounds x="1647" y="333" width="65" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1x16u5q_di" bpmnElement="Flow_1x16u5q">
@@ -247,16 +250,14 @@
         <di:waypoint x="270" y="330" />
         <di:waypoint x="270" y="580" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1lmu0de_di" bpmnElement="Flow_1lmu0de">
-        <di:waypoint x="620" y="580" />
-        <di:waypoint x="620" y="130" />
-        <di:waypoint x="700" y="130" />
+      <bpmndi:BPMNEdge id="Flow_19kfzvc_di" bpmnElement="Flow_19kfzvc">
+        <di:waypoint x="2080" y="600" />
+        <di:waypoint x="2150" y="600" />
+        <di:waypoint x="2150" y="70" />
+        <di:waypoint x="750" y="60" />
+        <di:waypoint x="750" y="90" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0cyunqa_di" bpmnElement="Flow_0cyunqa">
-        <di:waypoint x="490" y="620" />
-        <di:waypoint x="570" y="620" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_1abprt4_di" bpmnElement="diverNomination">
+      <bpmndi:BPMNShape id="Activity_1abprt4_di" bpmnElement="driverNomination">
         <dc:Bounds x="700" y="90" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_182rfmm_di" bpmnElement="Gateway_182rfmm" isMarkerVisible="true">
@@ -280,11 +281,8 @@
       <bpmndi:BPMNShape id="Event_12ufu1v_di" bpmnElement="Event_12ufu1v">
         <dc:Bounds x="1692" y="722" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_065lrs4_di" bpmnElement="generateCourtDocs">
+      <bpmndi:BPMNShape id="Activity_065lrs4_di" bpmnElement="processAdminAction">
         <dc:Bounds x="1980" y="560" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_143gjh3_di" bpmnElement="Event_143gjh3">
-        <dc:Bounds x="2168" y="582" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1jhbrif_di" bpmnElement="reminderNotifyTrafficAdmin">
         <dc:Bounds x="1060" y="410" width="100" height="80" />

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.bytebuddy.asm.Advice.Return;
+
 public abstract class InvoiceBase implements Serializable {
 
     private LineItem lineItem;
@@ -26,45 +28,52 @@ public abstract class InvoiceBase implements Serializable {
     public List<LineItem> getLineItems() {
         return lineItems;
     }
+    
 
-    public void setLineItems(List<LineItem> lineItems) {
+    public InvoiceBase lineItems(List<LineItem> lineItems) {
         this.lineItems = lineItems;
+        return this;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
+    public InvoiceBase customerName(String customerName) {
+    	this.customerName = customerName;
+    	return this;
+    } 
 
     public String getAddressline1() {
         return addressline1;
     }
 
-    public void setAddressline1(String addressline1) {
-        this.addressline1 = addressline1;
-    }
+    public InvoiceBase addressline1(String addressline1) {
+    	this.addressline1 = addressline1;
+    	return this;
+    } 
 
     public String getAddressCity() {
         return addressCity;
     }
-
-    public void setAddressCity(String addressCity) {
-        this.addressCity = addressCity;
-    }
+    
+    public InvoiceBase addressCity(String addressCity) {
+    	this.addressCity = addressCity;
+    	return this;
+    } 
 
     public String getAddressState() {
         return addressState;
     }
 
-    public void setAddressState(String addressState) {
-        this.addressState = addressState;
-    }
+    public InvoiceBase addressState(String addressState) {
+    	this.addressState = addressState;
+    	return this;
+    } 
 
     public String getAddressPostalCode() {
         return addressPostalCode;
     }
 
-    public void setAddressPostalCode(String addressPostalCode) {
-        this.addressPostalCode = addressPostalCode;
+    public InvoiceBase addressPostalCode(String addressPostalCode) {
+    	this.addressPostalCode = addressPostalCode;
+    	return this;
     }
 
     public void addLineItem(String description, int quantity, double unitPrice) {

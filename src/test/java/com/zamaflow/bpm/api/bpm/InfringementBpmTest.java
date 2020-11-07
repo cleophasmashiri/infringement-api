@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.springframework.test.context.junit4.SpringRunner;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.impl.util.ClockUtil;
@@ -63,7 +65,7 @@ public class InfringementBpmTest {
         ProcessInstance processInstance = processEngine().getRuntimeService()
             .startProcessInstanceByKey(TEST_PROCESS_KEY, variables);
 
-        assertThat(processInstance).isStarted().hasPassed("issueNewInfrigementNotice").isWaitingAt("diverNomination")
+        assertThat(processInstance).isStarted().hasPassed("issueNewInfrigementNotice").isWaitingAt("driverNomination")
             .task().isAssignedTo(DRIVER_EMAIL);
 
         long time = ClockUtil.getCurrentTime().getTime();
@@ -102,7 +104,7 @@ public class InfringementBpmTest {
         ProcessInstance processInstance = processEngine().getRuntimeService()
             .startProcessInstanceByKey(TEST_PROCESS_KEY, variables);
 
-        assertThat(processInstance).isStarted().hasPassed("issueNewInfrigementNotice").isWaitingAt("diverNomination")
+        assertThat(processInstance).isStarted().hasPassed("issueNewInfrigementNotice").isWaitingAt("driverNomination")
             .task().isAssignedTo(DRIVER_EMAIL);
 
         // TODO Fix test
@@ -147,7 +149,7 @@ public class InfringementBpmTest {
         ProcessInstance processInstance = processEngine().getRuntimeService()
             .startProcessInstanceByKey(TEST_PROCESS_KEY, variables);
 
-        assertThat(processInstance).isStarted().hasPassed("issueNewInfrigementNotice").isWaitingAt("diverNomination")
+        assertThat(processInstance).isStarted().hasPassed("issueNewInfrigementNotice").isWaitingAt("driverNomination")
             .task().isAssignedTo(DRIVER_EMAIL);
 
         long time = ClockUtil.getCurrentTime().getTime();
@@ -191,7 +193,7 @@ public class InfringementBpmTest {
         ProcessInstance processInstance = processEngine().getRuntimeService()
             .startProcessInstanceByKey(TEST_PROCESS_KEY, variables);
 
-        assertThat(processInstance).isStarted().hasPassed("issueNewInfrigementNotice").isWaitingAt("diverNomination")
+        assertThat(processInstance).isStarted().hasPassed("issueNewInfrigementNotice").isWaitingAt("driverNomination")
             .task().isAssignedTo(DRIVER_EMAIL);
 
         long time = ClockUtil.getCurrentTime().getTime();
@@ -220,9 +222,37 @@ public class InfringementBpmTest {
         assertThat(processInstance).hasPassed("reminderNotifyTrafficAdmin");
 
         complete(task(), Variables.createVariables().putValue("trafficAdminSelects",
-            "Go To Court"));
+            "Create Courtesy Letter"));
 
-        assertThat(processInstance).hasPassed("generateCourtDocs").isEnded();
+        assertThat(processInstance).hasPassed("processAdminAction").isWaitingAt("driverNomination");
+       
+        ClockUtil.setCurrentTime(new Date(time + seconds * 1000));
+        job =
+            processEngine().getManagementService().createJobQuery().singleResult();
+        processEngine().getManagementService().executeJob(job.getId());
+
+        assertThat(processInstance).hasPassed("sendDriverReminder");
+
+        // Nominate Another Driver / Representation / Go To Court
+        complete(task(), Variables.createVariables().putValue("driverSelects",
+            "Representation"));
+
+        assertThat(processInstance).isWaitingAt("reviewDriverInfrigement").task().hasCandidateGroup("trafficAdmin");
+
+        timeTrafficAdmin = ClockUtil.getCurrentTime().getTime();
+        secondsTrafficAdmin = 10 * 24 * 60 * 60;
+        ClockUtil.setCurrentTime(new Date(timeTrafficAdmin + secondsTrafficAdmin *
+            1000));
+        jobTrafficAdmin =
+            processEngine().getManagementService().createJobQuery().singleResult();
+        processEngine().getManagementService().executeJob(jobTrafficAdmin.getId());
+
+        assertThat(processInstance).hasPassed("reminderNotifyTrafficAdmin");
+
+        complete(task(), Variables.createVariables().putValue("trafficAdminSelects",
+            "Assign Another Driver"));
+
+        assertThat(processInstance).hasPassed("assignAnotherDriver").isEnded();
 
     }
 }

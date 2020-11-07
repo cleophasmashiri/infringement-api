@@ -1,6 +1,11 @@
 package com.zamaflow.bpm.api.domain;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import liquibase.pro.packaged.iF;
 
 public class Notification implements Serializable {
 	
@@ -15,8 +20,15 @@ public class Notification implements Serializable {
 	    private String body;
 	    private String action;
 	    private String actionDescription;
+	    private List<File> attachments;
+	    
+	    
 
-	    public String getToEmail() {
+	    public List<File> getAttachments() {
+			return attachments;
+		}
+
+		public String getToEmail() {
 	        return toEmail;
 	    }
 
@@ -69,5 +81,13 @@ public class Notification implements Serializable {
 			this.actionDescription = actionDescription;
 			return this;
 	    }
+
+		public Notification setAttachment(File attachment) {
+			if (this.attachments == null) {
+				this.attachments = new ArrayList<File>();
+			}
+			this.attachments.add(attachment);
+			return this;
+		}
 
 }

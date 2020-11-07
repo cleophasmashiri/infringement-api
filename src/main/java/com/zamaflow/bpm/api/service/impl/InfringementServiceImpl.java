@@ -198,4 +198,13 @@ public class InfringementServiceImpl implements InfringementService {
         return drivers!=null && !drivers.isEmpty()? drivers.get(0): null;
     }
 
+	@Override
+	public void sendDocument(Infringement infringement, InfringementActionType infringementActionType) {
+		log.info("sendDocument: infringement: " + infringement.toString() + " infringementActionType " + infringementActionType.toString());
+		// Generate document
+		
+		// email document
+		
+	}
+
 }
