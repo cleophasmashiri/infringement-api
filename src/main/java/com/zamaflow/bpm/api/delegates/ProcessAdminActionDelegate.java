@@ -68,30 +68,25 @@ public class ProcessAdminActionDelegate implements JavaDelegate {
 		String adminSelects = delegateExecution.getVariable("trafficAdminSelects") != null
 				? delegateExecution.getVariable("trafficAdminSelects").toString()
 				: "";
-
-		// 'Go To Court', value: 'Go To Court'
-		// 'Create Courtesy Letter', value: 'Create Courtesy Letter'
-		// 'Create Enforcement Order', value: 'Create Enforcement Order'
-		// 'Create Warrant of Execution', value: 'Create Warrant of Execution'
-		// 'Add Demerit Points', value: 'Add Demerit Points'
+				String subject = "";
 		InfringementActionType infringementActionType = null;
 		switch (adminSelects) {
 		case "Create Courtesy Letter":
 			infringementActionType = InfringementActionType.INFRINGEMENT_CREATE_COURTESY_LETTER;
+			subject = "Courtesy Letter";
 			break;
 		case "Create Enforcement Order":
 			infringementActionType = InfringementActionType.INFRINGEMENT_CREATE_INFORCEMENT_ORDER;
+			subject = "Enforcement Order";
 			break;
 		case "Create Warrant of Execution":
+			subject = "Warrant of Execution";
 			infringementActionType = InfringementActionType.INFRINGEMENT_WARRANT_ORDER;
 			break;
 		}
-
 		if (infringementActionType != null) {
 			String driverIdNumber = delegateExecution.getVariable("driverIdNumber").toString();
 			Driver driver = infringementService.findDriverByNationalIdNumber(driverIdNumber);
-
-			// get all infringements and actions
 			List<LineItem> fineLineItems = new ArrayList();
 			List<LineItem> demeritLineItems = new ArrayList();
 			List<Infringement> infringements = this.infringementService.findByDriverEmail(driver.getEmail());
@@ -112,32 +107,21 @@ public class ProcessAdminActionDelegate implements JavaDelegate {
 					}
 				}
 			}
-
 			InvoiceBase fines = new Quotation().addressline1(driver.getProvince()).addressCity(driver.getCity())
 					.customerName(driver.getFirstName() + " " + driver.getLastName()).lineItems(fineLineItems);
 			InvoiceBase demerits = new Quotation().addressline1(driver.getProvince()).addressCity(driver.getCity())
 					.customerName(driver.getFirstName() + " " + driver.getLastName()).lineItems(demeritLineItems);
 			
-			String subject = "";
-			switch (infringementActionType) {
-			case INFRINGEMENT_CREATE_COURTESY_LETTER:
-				subject = "Courtesy Letter";
-				break;
-			case INFRINGEMENT_CREATE_INFORCEMENT_ORDER:
-				subject = "Enforcement Order";
-				break;
-			case INFRINGEMENT_WARRANT_ORDER:
-				subject = "Warrant of Execution";
-				break;
-			}
 			File finesFile = pdfGenaratorUtil.createPdf("quotation", fines, delegateExecution,
 					subject);
 			File demeritFile = pdfGenaratorUtil.createPdf("quotation", demerits, delegateExecution,
 					"Demerits");
-
 			emailDispatcher
-					.send(new Notification().setSubject(subject).setToFrom(fromEmail).setToEmail(driver.getEmail())
-							.setBody("A new " + subject + " created." + infringement.getInfringementType())
+					.send(new Notification()
+							.setSubject(subject)
+							.setToFrom(fromEmail).
+							setToEmail(driver.getEmail())
+							.setBody("A new " + subject + " created." + infringement.getInfringementType() )
 							.setAction(taskUrl).setActionDescription("View Online")
 							.setAttachment(finesFile)
 							.setAttachment(demeritFile));
